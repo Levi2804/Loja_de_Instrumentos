@@ -29,7 +29,7 @@ void verCarrinho(struct User* user) {
         int i = 1;
         while (current != NULL) {
             printf("%d. %s - R$%.2f\n", i++, current->item.nome, current->item.preco);
-            current = current->next;
+            current = current->proximo;
         }
     }
 }
@@ -37,16 +37,16 @@ void verCarrinho(struct User* user) {
 void adicionarAoCarrinho(struct User* user, struct Instrumento item) {
     struct CartNo* novoNo = (struct CartNo*)malloc(sizeof(struct CartNo));
     novoNo->item = item;
-    novoNo->next = NULL;
+    novoNo->proximo = NULL;
 
     if (user->cart == NULL) {
         user->cart = novoNo;
     } else {
         struct CartNo* temp = user->cart;
-        while (temp->next != NULL) {
-            temp = temp->next;
+        while (temp->proximo != NULL) {
+            temp = temp->proximo;
         }
-        temp->next = novoNo;
+        temp->proximo = novoNo;
     }
 }
 
@@ -87,24 +87,24 @@ void excluirInstrumento(struct User* user, int posicao) {
     struct CartNo* temp = user->cart;
 
     if (posicao == 1) {
-        user->cart = temp->next;
+        user->cart = temp->proximo;
         free(temp);
         printf("Instrumento excluído com sucesso!\n");
         return;
     }
 
     for (int i = 1; temp != NULL && i < posicao - 1; i++) {
-        temp = temp->next;
+        temp = temp->proximo;
     }
 
-    if (temp == NULL || temp->next == NULL) {
+    if (temp == NULL || temp->proximo == NULL) {
         printf("Posição inválida.\n");
         return;
     }
 
-    struct CartNo* next = temp->next->next;
-    free(temp->next);
-    temp->next = next;
+    struct CartNo* next = temp->proximo->proximo;
+    free(temp->proximo);
+    temp->proximo = proximo;
     printf("Instrumento excluído com sucesso!\n");
 }
 
